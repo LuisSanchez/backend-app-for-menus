@@ -1,19 +1,17 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from norawebapp.forms import MenuForm
-from norawebapp.models import Menu
-from datetime import date
+from norawebapp.models import Menu as MenuModel
+from rest_framework.views import APIView
 
 def index(request):
     return render(request, "norawebapp/index.html")
 
 def createMenu(request):
     form = MenuForm(request.POST or None)
-    menu_instance = Menu()
+    menu_instance = MenuModel()
 
     if request.method == "POST":
         if form.is_valid():
-            message = "Los días de plazo no pueden ser mayores al cálculo de la tmc, intente nuevamente"
             menu_instance.option_one = form.cleaned_data['option_one']
             menu_instance.option_two = form.cleaned_data['option_two']
             menu_instance.option_three = form.cleaned_data['option_three']
@@ -33,4 +31,21 @@ def createMenu(request):
     else:
         return render(request, "norawebapp/createMenu.html", {"form": form})
 
-    
+class Menu(APIView):
+    """ Retrieve the TMC year and month """
+    def get(self, request, **kwargs):
+        id = kwargs.get('id', None)
+        if id == None:
+            context = {
+                "message": "Menú inválido...",
+            }
+            return render(request, "norawebapp/index.html", context)
+
+        menu_instance = MenuModel.objects.get(id=id)
+        context = {
+            "op1": menu_instance.option_one,
+            "op2": menu_instance.option_two,
+            "op3": menu_instance.option_three,
+            "op4": menu_instance.option_four,
+        }
+        return render(request, "norawebapp/menu.html", context)
