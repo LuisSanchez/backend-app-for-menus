@@ -1,1 +1,18 @@
-<h1>index</h1>
+{% extends "norawebapp/layout.html" %}
+{% block title %}
+Nora Home
+{% endblock %}
+{% block content %}
+<h1>Welcome Nora!</h1>
+<div>
+    <p class="lead">Please, select an option!</p>
+</div>
+<div class="text-right">
+    <p>
+        <a href="{% url 'createmenu' %}" class="btn btn-primary">Create menu!</a>
+    </p>
+</div>
+{% if message %}
+<h3>{{ message }}</h3>
+{% endif  %}
+{% endblock %}
