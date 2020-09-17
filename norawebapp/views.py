@@ -18,6 +18,7 @@ def createMenu(request):
             menu_instance.option_four = form.cleaned_data['option_four']
             menu_instance.date = form.cleaned_data['date']
             menu_instance.save()
+            
             # need to check if the menu exists for that date
             # message = "El menú ya existe para ese día"
             # return render(request, "norawebapp/createMenu.html", {"form": form, "message": message})
@@ -32,7 +33,7 @@ def createMenu(request):
         return render(request, "norawebapp/createMenu.html", {"form": form})
 
 class Menu(APIView):
-    """ Retrieve the TMC year and month """
+    """ Retrieve menu of the day by its uuid """
     def get(self, request, **kwargs):
         id = kwargs.get('id', None)
         if id == None:
