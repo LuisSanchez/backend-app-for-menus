@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY_MENU', 'no-key')
+SECRET_KEY = os.environ.get('SECRET_KEY_MENU', os.getenv("SECRET_KEY_MENU"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'slack',
+    'whatsapp',
+    'norawebapp',
 ]
 
 MIDDLEWARE = [
@@ -118,3 +123,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
+
+
+# TWILIO
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', os.getenv("TWILIO_ACCOUNT_SID"))
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', os.getenv("TWILIO_AUTH_TOKEN"))
+TWILIO_FROM_WHATSAPP = os.environ.get('FROM_WHATSAPP_TWILIO', os.getenv("FROM_WHATSAPP_TWILIO"))
+TWILIO_TO_WHATSAPP = os.environ.get('TO_WHATSAPP_TWILIO', os.getenv("TO_WHATSAPP_TWILIO")) # for testing, this should come from db
+
+# Slack
