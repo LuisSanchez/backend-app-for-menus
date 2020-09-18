@@ -6,7 +6,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('', include('norawebapp.urls')),
     path('whatsapp/', include('whatsapp.urls')),
-    path('slack/', include('slack.urls')),
+    path('slack/', include('slackapp.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

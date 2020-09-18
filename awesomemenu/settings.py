@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'slack',
+    'slackapp',
     'whatsapp',
     'norawebapp',
 ]
@@ -129,7 +129,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
 # TWILIO
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', os.getenv("TWILIO_ACCOUNT_SID"))
 TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', os.getenv("TWILIO_AUTH_TOKEN"))
-TWILIO_FROM_WHATSAPP = os.environ.get('FROM_WHATSAPP_TWILIO', os.getenv("FROM_WHATSAPP_TWILIO"))
-TWILIO_TO_WHATSAPP = os.environ.get('TO_WHATSAPP_TWILIO', os.getenv("TO_WHATSAPP_TWILIO")) # for testing, this should come from db
+TWILIO_FROM_WHATSAPP = os.environ.get('FROM_WHATSAPP_TWILIO', os.getenv("TWILIO_FROM_WHATSAPP"))
+TWILIO_TO_WHATSAPP = os.environ.get('TO_WHATSAPP_TWILIO', os.getenv("TWILIO_TO_WHATSAPP")) # for testing, this should come from db
 
 # Slack
+SLACK_TOKEN = os.environ.get('SLACK_TOKEN', os.getenv("SLACK_TOKEN"))
+SLACK_CHANNEL = os.environ.get('SLACK_CHANNEL', os.getenv("SLACK_CHANNEL"))

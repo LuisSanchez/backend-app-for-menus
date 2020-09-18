@@ -3,8 +3,10 @@ from norawebapp.forms import MenuForm
 from norawebapp.models import Menu as MenuModel
 from rest_framework.views import APIView
 
+from slackapp.helpers.slack_helper import slackTest
 
 def index(request):
+    slackTest()
     return render(request, "norawebapp/index.html")
 
 

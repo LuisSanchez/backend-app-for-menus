@@ -8,6 +8,7 @@ def sendTestMessage(menu: Menu, numbers, url):
     auth_token = settings.TWILIO_AUTH_TOKEN
     client = Client(account_sid, auth_token) 
     
+    ## enviar solo la información necesaria desde la vista, no es necesario hacer esto acá
     menu_of_the_day = (f"Hola!\n"
                        f"Dejo el menú de hoy :)\n"
                        f"Opción 1: {menu.option_one}\n"
