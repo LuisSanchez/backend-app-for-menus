@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'slackapp',
-    'whatsapp',
-    'norawebapp',
+    'slackapp.apps.SlackappConfig',
+    'whatsapp.apps.WhatsappConfig',
+    'norawebapp.apps.NorawebappConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

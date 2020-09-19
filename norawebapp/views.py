@@ -1,14 +1,39 @@
+from django.conf import settings
 from django.shortcuts import render
 from norawebapp.forms import MenuForm
 from norawebapp.models import Menu as MenuModel
 from rest_framework.views import APIView
+from whatsapp.views import MenuManagerView
+from datetime import date
 
 from slackapp.helpers.slack_helper import slackTest
 
 def index(request):
-    slackTest()
+    #send_whatsapp_message_with_menu(None, "", "")
     return render(request, "norawebapp/index.html")
 
+def send_whatsapp_message_with_menu(menu: MenuModel, from_, to_):
+    if (len(menu) != 0):
+        menu_of_the_day = (f"Hola!\n"
+                        f"Dejo el menú de hoy :)\n"
+                        f"Opción 1: {menu.option_one}\n"
+                        f"Opción 2: {menu.option_two}\n"
+                        f"Opción 3: {menu.option_three}\n"
+                        f"Opción 4: {menu.option_four}\n"
+                        f"Tengan lindo día!")
+        request = {
+            'message': menu_of_the_day, 
+            'from': settings.TWILIO_TO_WHATSAPP, 
+            'to': settings.TWILIO_FROM_WHATSAPP
+        }
+
+    #menu_view = MenuManagerView()
+    #response = menu_view.post(request)
+    ##return response
+    return None
+
+def get_menu_of_the_day(date_of_data):
+    return MenuModel.objects.filter(date=date_of_data)
 
 class Menu(APIView):
     ''' Retrieve menu of the day by its uuid '''
@@ -29,6 +54,7 @@ class Menu(APIView):
         }
         return render(request, "norawebapp/menu.html", context)
 
+
 class MenuFormView(APIView):
     form_class = MenuForm
     template_name = "norawebapp/createMenu.html"
@@ -48,16 +74,17 @@ class MenuFormView(APIView):
             menu_instance.option_three = form.cleaned_data['option_three']
             menu_instance.option_four = form.cleaned_data['option_four']
             menu_instance.date = form.cleaned_data['date']
-            menu_instance.save()
 
-            # need to check if the menu exists for that date
-            # message = "El menú ya existe para ese día"
-            # return render(request, "norawebapp/createMenu.html", {"form": form, "message": message})
-
-            context = {
-                "message": "Menu ingresado!",
-            }
-            return render(request, "norawebapp/index.html", context)
+            # need to check if the menu exists for that day
+            if (len(get_menu_of_the_day(menu_instance.date)) != 0):
+                message = "El menú ya existe para ese día"
+                return render(request, "norawebapp/createMenu.html", {"form": form, "message": message})
+            else:
+                menu_instance.save()
+                context = {
+                    "message": "Menu ingresado!",
+                }
+                return render(request, "norawebapp/index.html", context)
         else:
             render(request, self.template_name)
 
