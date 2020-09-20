@@ -4,10 +4,14 @@ Menú del día
 {% endblock %}
 {% block content %}
 <h1>Hola!</h1>
-<h1>El menú del día es:</h1>
-<p>Opción 1: {{ op1 }}</p>
-<p>Opción 2: {{ op2 }}</p>
-<p>Opción 3: {{ op3 }}</p>
-<p>Opción 4: {{ op4 }}</p>
-<h4>Tengan lindo día!</h4>
+{% if message %}
+    <h3>{{ message }}</h3>
+{% else %}
+    <h1>El menú del día es:</h1>
+    <p>Opción 1: {{ op1 }}</p>
+    <p>Opción 2: {{ op2 }}</p>
+    <p>Opción 3: {{ op3 }}</p>
+    <p>Opción 4: {{ op4 }}</p>
+    <h4>Tengan lindo día!</h4>
+{% endif  %}
 {% endblock %}

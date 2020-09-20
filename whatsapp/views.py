@@ -18,4 +18,4 @@ class MenuManagerView(APIView):
         
         response = send_whatsapp_message(message, to_, from_)
 
-        return Response(response, status=status.HTTP_201_CREATED)
+        return Response(response, status=status.HTTP_200_OK)

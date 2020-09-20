@@ -32,28 +32,29 @@ def send_whatsapp_message_with_menu(menu: MenuModel, from_, to_):
     ##return response
     return None
 
-def get_menu_of_the_day(date_of_data):
-    return MenuModel.objects.filter(date=date_of_data)
+def get_menu_of_the_day(date_of_menu):
+    return MenuModel.objects.filter(date=date_of_menu)
 
 class Menu(APIView):
     ''' Retrieve menu of the day by its uuid '''
     def get(self, request, **kwargs):
         id = kwargs.get('id', None)
         if id == None:
+            context = { "message": "Menú inválido..." }
+
+        try:
+            menu_instance = MenuModel.objects.get(id=id)
             context = {
-                "message": "Menú inválido...",
+                "op1": menu_instance.option_one,
+                "op2": menu_instance.option_two,
+                "op3": menu_instance.option_three,
+                "op4": menu_instance.option_four,
             }
-            return render(request, "norawebapp/index.html", context)
+        except MenuModel.DoesNotExist:
+            context = { "message": "Menú inválido..." }
 
-        menu_instance = MenuModel.objects.get(id=id)
-        context = {
-            "op1": menu_instance.option_one,
-            "op2": menu_instance.option_two,
-            "op3": menu_instance.option_three,
-            "op4": menu_instance.option_four,
-        }
         return render(request, "norawebapp/menu.html", context)
-
+    
 
 class MenuFormView(APIView):
     form_class = MenuForm
@@ -89,3 +90,7 @@ class MenuFormView(APIView):
             render(request, self.template_name)
 
         return render(request, "norawebapp/index.html")
+
+    def put(self, request, *args, **kwargs):
+        menu_of_the_day = get_menu_of_the_day(date.today())
+        form = self.form_class(request.POST or None)
