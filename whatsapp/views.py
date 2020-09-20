@@ -8,9 +8,6 @@ from rest_framework import status
 
 
 class MenuManagerView(APIView):
-    def get (self, *args):
-        return Response('<h2>whatsapp</h2>', status=status.HTTP_200_OK)
-
     def post(self, request, *args, **kwargs):
         message = request.data['message']
         from_ = request.data['from']

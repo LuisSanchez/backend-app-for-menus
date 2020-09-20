@@ -9,10 +9,12 @@ Nora Home
 </div>
 <div class="text-right">
     <p>
-        <a href="{% url 'createmenu' %}" class="btn btn-primary">Create menu!</a>
+        <a href="{% url 'createmenu' %}" class="btn btn-primary">Crear Menú</a>
     </p>
 </div>
+
 {% if message %}
+<br>
 <h3>{{ message }}</h3>
 {% endif  %}
 {% endblock %}
