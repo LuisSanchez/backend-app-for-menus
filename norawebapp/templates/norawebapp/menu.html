@@ -3,13 +3,13 @@
 Menú del día
 {% endblock %}
 {% block content %}
-<h1>Hola!</h1>
+<h2>Hola!</h2>
 {% if message %}
     <h3>{{ message }}</h3>
 {% else %}
     {% now "d" as current_day %}
     {% now "m" as current_month %}
-    <h1>El menú de hoy {{current_day}} / {{current_month}} es:</h1>
+    <h3>El menú de hoy {{current_day}} / {{current_month}} es:</h3>
     <p>Opción 1: {{ op1 }}</p>
     <p>Opción 2: {{ op2 }}</p>
     <p>Opción 3: {{ op3 }}</p>

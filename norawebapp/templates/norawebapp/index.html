@@ -1,8 +1,9 @@
 {% extends "norawebapp/layout.html" %}
 {% block title %}
-Nora Home
+El menú de Nora
 {% endblock %}
 {% block content %}
+
 <h1>Hola Nora, Buen Día!</h1>
 
 {% if menu %}
@@ -26,10 +27,5 @@ Nora Home
         <a href="{% url 'createmenu' %}" class="">Crear Menú</a>
     </p>
 {% endif %}
-
-{% if message %}
-    <br>
-    <h3>{{ message }}</h3>
-{% endif  %}
 
 {% endblock %}

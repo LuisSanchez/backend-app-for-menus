@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Menu(models.Model):
@@ -23,11 +24,11 @@ class Menu(models.Model):
                 f"Opción 4: {self.option_four}\n"
                 f"Tengan lindo día!")
 
+
 class Employee(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=100)
+
 
 class EmployeeMenu(models.Model):
     employee = models.ForeignKey('Employee', on_delete=models.DO_NOTHING)

@@ -7,6 +7,7 @@ urlpatterns = [
     path('', include('norawebapp.urls')),
     path('api/whatsapp/', include('whatsapp.urls')),
     path('api/slack/', include('slackapp.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

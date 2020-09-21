@@ -6,15 +6,22 @@ from rest_framework.views import APIView, View
 from whatsapp.views import WhatsappView
 from datetime import date
 
+from rest_framework import authentication, permissions
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def index(request):
     menu = MenuModel()
     menu = menu.get_menu_by_date(date.today())
     return render(request, "norawebapp/index.html", { 'menu': menu.first() })
 
+@login_required
 def menu_list(request):
     menus = EmployeeMenu.objects.all()
     return render(request, 'norawebapp/menu-list.html', { 'menus': menus })
 
+@login_required
 def send_whatsapp_message_with_menu(menu: MenuModel, from_, to_):
     if (len(menu) != 0):
         request = {
@@ -49,12 +56,12 @@ class MenuView(View):
             context = { "message": "Menú inválido..." }
 
         return render(request, self.template_name, context)
-    
 
 class MenuFormView(View):
     form_class = MenuForm
     template_name = "norawebapp/create-menu.html"
 
+    permission_classes = [permissions.IsAdminUser]
     ''' Sets a particular menu or initializes it for creation '''
     def get(self, request, **kwargs):
         menu_id = kwargs.get('id', None)
@@ -87,7 +94,6 @@ class MenuFormView(View):
                 return redirect("index")
         else:
             return render(request, self.template_name)
-
 
 class EmployeeView(View):
     form_class = EmployeeForm
