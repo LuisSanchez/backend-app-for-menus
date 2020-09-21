@@ -13,15 +13,16 @@
         <a href="{% url 'index' %}" class="navbar-brand">Noras Menu</a> | 
         <a href="{% url 'index' %}" class="navbar-item">Menu del Día</a> | 
         <a href="{% url 'createmenu' %}" class="navbar-item">Crear Menu</a> |
-        <a href="{% url 'employee' %}" class="navbar-item">Crear Empleado</a>
+        <a href="{% url 'createemployee' %}" class="navbar-item">Crear Empleado</a>
     </div>
 
     <div class="body-content">
         {% block content %}
         {% endblock %}
         <hr />
+        {% now "Y" as current_year %}
         <footer>
-            <p>© 2020</p>
+            <p>© {{current_year}}</p>
         </footer>
     </div>
 </body>

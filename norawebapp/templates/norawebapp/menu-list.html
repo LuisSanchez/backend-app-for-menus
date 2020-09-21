@@ -1,0 +1,16 @@
+{% extends "norawebapp/layout.html" %}
+{% block title %}
+    Lista de menú
+{% endblock %}
+{% block content %}
+
+<h2>Lista de menú del día por empleado</h2>
+{% if menus %}
+    {% for menu in menus %}
+        <p>{{menu.option_one}}</p>
+    {% endfor %}
+{% else %}
+    <p>No se han seleccionado menús para el día</p>
+{% endif %}
+
+{% endblock %}
