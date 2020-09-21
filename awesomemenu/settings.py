@@ -136,3 +136,5 @@ TWILIO_TO_WHATSAPP = os.environ.get('TO_WHATSAPP_TWILIO', os.getenv("TWILIO_TO_W
 # Slack
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN', os.getenv("SLACK_TOKEN"))
 SLACK_CHANNEL = os.environ.get('SLACK_CHANNEL', os.getenv("SLACK_CHANNEL"))
+
+BASE_URL_SERVER = 'http://127.0.0.1:8000'
