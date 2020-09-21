@@ -14,6 +14,15 @@ class Menu(models.Model):
     def get_menu_by_date(self, date_of_menu):
         return Menu.objects.filter(date=date_of_menu)
 
+    def __str__(self):
+        return (f"Hola!\n"
+                f"Dejo el menú de hoy :)\n"
+                f"Opción 1: {self.option_one}\n"
+                f"Opción 2: {self.option_two}\n"
+                f"Opción 3: {self.option_three}\n"
+                f"Opción 4: {self.option_four}\n"
+                f"Tengan lindo día!")
+
 class Employee(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -25,4 +34,7 @@ class EmployeeMenu(models.Model):
     menu = models.ForeignKey('Menu', on_delete=models.DO_NOTHING)
     comment = models.CharField(max_length=100)
     option_selected = models.CharField(max_length=100)
-    date = models.DateField(auto_now=True) 
+    date = models.DateField(auto_now=True)
+
+    def get_menus_of_employee_by_menu_id(self, menu_id):
+        return EmployeeMenu.objects.filter(menu=menu_id)
