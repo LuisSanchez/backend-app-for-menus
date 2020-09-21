@@ -3,5 +3,5 @@ from slackapp import views
 
 
 urlpatterns = [
-    path("", views.index, name="slackapp"),
+    path("", views.SlackView.as_view(), name="slackapp"),
 ]
