@@ -11,6 +11,9 @@ class Menu(models.Model):
     date = models.DateField()
     creation_date = models.DateField(auto_now=True)
 
+    def get_menu_by_date(self, date_of_menu):
+        return Menu.objects.filter(date=date_of_menu)
+
 class Employee(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
