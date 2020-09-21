@@ -8,6 +8,7 @@ class MenuForm(forms.ModelForm):
     class Meta:
         model = Menu
         fields = '__all__'
+    
 
 class EmployeeForm(forms.ModelForm):
     class Meta:

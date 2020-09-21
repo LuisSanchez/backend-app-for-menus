@@ -3,18 +3,33 @@
 Nora Home
 {% endblock %}
 {% block content %}
-<h1>Welcome Nora!</h1>
-<div>
-    <p class="lead">Please, select an option!</p>
-</div>
-<div class="text-right">
+<h1>Hola Nora, Buen Día!</h1>
+
+{% if menu %}
+    <div>
+        <p class="lead">El menú de hoy es:</p>
+    </div>
+    <div>
+        <ul>
+            <li>{{menu.option_one}}</li>
+            <li>{{menu.option_two}}</li>
+            <li>{{menu.option_three}}</li>
+            <li>{{menu.option_four}}</li>
+        </ul>
+        <p>
+            <a href="{% url 'editmenu' menu.id %}" class="">Editar Menú del Día</a>
+        </p>
+    </div>
+{% else %}
+    <p>No se ha creado menú para el día</p>
     <p>
-        <a href="{% url 'createmenu' %}" class="btn btn-primary">Crear Menú</a>
+        <a href="{% url 'createmenu' %}" class="">Crear Menú</a>
     </p>
-</div>
+{% endif %}
 
 {% if message %}
-<br>
-<h3>{{ message }}</h3>
+    <br>
+    <h3>{{ message }}</h3>
 {% endif  %}
+
 {% endblock %}

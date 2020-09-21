@@ -1,29 +1,24 @@
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from norawebapp.forms import EmployeeForm, MenuForm
-from norawebapp.models import Employee, Menu as MenuModel
-from rest_framework.views import APIView
+from norawebapp.models import EmployeeMenu, Employee, Menu as MenuModel
+from rest_framework.views import APIView, View
 from whatsapp.views import WhatsappView
-
+from datetime import date
 
 def index(request):
-    return render(request, "norawebapp/index.html")
+    menu = MenuModel()
+    menu = menu.get_menu_by_date(date.today())
+    return render(request, "norawebapp/index.html", { 'menu': menu.first() })
 
 def menu_list(request):
-    menus = MenuModel.objects.all()
+    menus = EmployeeMenu.objects.all()
     return render(request, 'norawebapp/menu-list.html', { 'menus': menus })
 
 def send_whatsapp_message_with_menu(menu: MenuModel, from_, to_):
     if (len(menu) != 0):
-        menu_of_the_day = (f"Hola!\n"
-                        f"Dejo el menú de hoy :)\n"
-                        f"Opción 1: {menu.option_one}\n"
-                        f"Opción 2: {menu.option_two}\n"
-                        f"Opción 3: {menu.option_three}\n"
-                        f"Opción 4: {menu.option_four}\n"
-                        f"Tengan lindo día!")
         request = {
-            'message': menu_of_the_day, 
+            'message': str(menu), 
             'from': settings.TWILIO_TO_WHATSAPP, 
             'to': settings.TWILIO_FROM_WHATSAPP
         }
@@ -33,7 +28,7 @@ def send_whatsapp_message_with_menu(menu: MenuModel, from_, to_):
     return response
 
 
-class MenuView(APIView):
+class MenuView(View):
     template_name = "norawebapp/menu.html"
 
     ''' Retrieve menu of the day by its uuid '''
@@ -56,44 +51,45 @@ class MenuView(APIView):
         return render(request, self.template_name, context)
     
 
-class MenuFormView(APIView):
+class MenuFormView(View):
     form_class = MenuForm
     template_name = "norawebapp/create-menu.html"
 
-    def get(self, request):
-        form = self.form_class(request.GET or None)
+    ''' Sets a particular menu or initializes it for creation '''
+    def get(self, request, **kwargs):
+        menu_id = kwargs.get('id', None)
+
+        if menu_id == None:
+            form = self.form_class(request.GET or None)    
+        else:
+            menu = MenuModel.objects.get(id=menu_id)
+            form = MenuForm(instance=menu)
+        
         return render(request, self.template_name, {'form': form})
 
-    ''' Creates the menu '''
+    ''' Saves the menu '''
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST or None)
+        menu = MenuModel()
+        menu_id = kwargs.get('id', None)
         
-        if form.is_valid():
-            menu = MenuModel()
-            menu.option_one = form.cleaned_data['option_one']
-            menu.option_two = form.cleaned_data['option_two']
-            menu.option_three = form.cleaned_data['option_three']
-            menu.option_four = form.cleaned_data['option_four']
-            menu.date = form.cleaned_data['date']
+        if (menu_id is not None):
+            menu = MenuModel.objects.get(id=menu_id)
 
+        form = self.form_class(request.POST, instance=menu)
+    
+        if form.is_valid():
             # need to check if the menu exists for that day
-            if (len(menu.get_menu_by_date(menu.date)) > 0):
+            if (len(menu.get_menu_by_date(form.cleaned_data['date'])) > 0) and (menu_id is None):
                 message = "El menú ya existe para ese día"
                 return render(request, self.template_name, {"form": form, "message": message})
             else:
-                menu.save()
-                context = { "message": "Menu ingresado!" }
-                return render(request, "norawebapp/index.html", context)
+                form.save()
+                return redirect("index")
         else:
-            render(request, self.template_name)
-
-    def put(self, request, *args, **kwargs):
-        # menu_of_the_day = MenuModel...
-        # form = self.form_class(request.POST or None)
-        pass
+            return render(request, self.template_name)
 
 
-class EmployeeView(APIView):
+class EmployeeView(View):
     form_class = EmployeeForm
     template_name = "norawebapp/employee.html"
 
@@ -105,14 +101,7 @@ class EmployeeView(APIView):
         form = self.form_class(request.POST or None)
         
         if form.is_valid():
-            employee = Employee()
-            employee.first_name = form.cleaned_data['first_name']
-            employee.last_name = form.cleaned_data['last_name']
-            employee.email = form.cleaned_data['email']
-            employee.phone_number = form.cleaned_data['phone_number']
-            employee.save()
-
-            context = { "message": "Empleado ingresado!" }
-            return render(request, "norawebapp/index.html", context)
+            form.save()
+            return redirect('index')
         else:
-            render(request, self.template_name)
+            return render(request, self.template_name)

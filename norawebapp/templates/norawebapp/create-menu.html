@@ -2,50 +2,15 @@
 {% block title %}
 Create Menu
 {% endblock %}
+
 {% block content %}
-{% load filters %}
+
 <h1>Crear menú</h1>
-<form method="POST" class="log-form">
-    {% csrf_token %}
-
-    {{ form.non_field_errors }}
-    <div class="fieldWrapper">
-        {{ form.option_one.errors }}
-        <label for="option_one">Opción 1:</label>
-        {{ form.option_one|addclass:'form-control' }}
-    </div>
-
-    <div class="fieldWrapper">
-        {{ form.option_two.errors }}
-        <label for="option_two">Opción 2:</label>
-        {{ form.option_two|addclass:'form-control' }}
-    </div>
-
-    <div class="fieldWrapper">
-        {{ form.option_three.errors }}
-        <label for="option_three">Opción 3:</label>
-        {{ form.option_three|addclass:'form-control' }}
-    </div>
-    
-    <div class="fieldWrapper">
-        {{ form.option_four.errors }}
-        <label for="option_four">Opción 4:</label>
-        {{ form.option_four|addclass:'form-control' }}
-    </div>
-
-    {{ form.non_field_errors }}
-    <div class="fieldWrapper">
-        {{ form.date.errors }}
-        <label for="date">Fecha del menú:</label>
-        {{ form.date|addclass:'form-control' }}
-    </div>
-
-
-    <br>
-    <div class="text-right">
-        <button type="submit" class="btn btn-primary">Create menu</button>
-    </div>
+<form method="POST" action=".">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Guardar"></input>
 </form>
+
 {% if message %}
 <h3>{{ message }}</h3>
 {% endif  %}
