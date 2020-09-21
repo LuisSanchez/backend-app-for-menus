@@ -3,7 +3,7 @@ from django.shortcuts import render
 from norawebapp.forms import EmployeeForm, MenuForm
 from norawebapp.models import Employee, Menu as MenuModel
 from rest_framework.views import APIView
-from whatsapp.views import MenuManagerView
+from whatsapp.views import WhatsappView
 
 
 def index(request):
@@ -28,10 +28,9 @@ def send_whatsapp_message_with_menu(menu: MenuModel, from_, to_):
             'to': settings.TWILIO_FROM_WHATSAPP
         }
 
-    #menu_view = MenuManagerView()
-    #response = menu_view.post(request)
-    ##return response
-    return None
+    menu_view = MenuManagerView()
+    response = menu_view.post(request)
+    return response
 
 
 class MenuView(APIView):
