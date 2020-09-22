@@ -128,7 +128,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
 
 # Django auth
 LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'login'
 
 # TWILIO
 TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', os.getenv("TWILIO_ACCOUNT_SID"))

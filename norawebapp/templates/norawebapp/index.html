@@ -4,7 +4,7 @@ El menú de Nora
 {% endblock %}
 {% block content %}
 
-<h1>Hola Nora, Buen Día!</h1>
+<h1>Hola {{ user.username }}, Buen Día!</h1>
 
 {% if menu %}
     <div>
@@ -17,15 +17,20 @@ El menú de Nora
             <li>{{menu.option_three}}</li>
             <li>{{menu.option_four}}</li>
         </ul>
-        <p>
-            <a href="{% url 'editmenu' menu.id %}" class="">Editar Menú del Día</a>
-        </p>
+
+        {% if request.user.is_staff %}
+            <p>
+                <a href="{% url 'editmenu' menu.id %}" class="">Editar Menú del Día</a>
+            </p>
+        {% endif %}
     </div>
 {% else %}
     <p>No se ha creado menú para el día</p>
-    <p>
-        <a href="{% url 'createmenu' %}" class="">Crear Menú</a>
-    </p>
+    {% if request.user.is_staff %}
+        <p>
+            <a href="{% url 'createmenu' %}" class="">Crear Menú</a>
+        </p>
+    {% endif %}
 {% endif %}
 
 {% endblock %}

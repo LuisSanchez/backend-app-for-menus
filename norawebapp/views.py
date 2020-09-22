@@ -1,27 +1,21 @@
 from django.conf import settings
 from django.shortcuts import redirect, render
-from norawebapp.forms import EmployeeForm, MenuForm
+from norawebapp.forms import EmployeeForm, MenuForm, EmployeeMenuForm
 from norawebapp.models import EmployeeMenu, Employee, Menu as MenuModel
-from rest_framework.views import APIView, View
+from rest_framework.views import View
 from whatsapp.views import WhatsappView
 from datetime import date
 
-from rest_framework import authentication, permissions
 
-from django.contrib.auth.decorators import login_required
-
-@login_required
 def index(request):
     menu = MenuModel()
     menu = menu.get_menu_by_date(date.today())
     return render(request, "norawebapp/index.html", { 'menu': menu.first() })
 
-@login_required
 def menu_list(request):
     menus = EmployeeMenu.objects.all()
     return render(request, 'norawebapp/menu-list.html', { 'menus': menus })
 
-@login_required
 def send_whatsapp_message_with_menu(menu: MenuModel, from_, to_):
     if (len(menu) != 0):
         request = {
@@ -57,13 +51,13 @@ class MenuView(View):
 
         return render(request, self.template_name, context)
 
+
 class MenuFormView(View):
     form_class = MenuForm
     template_name = "norawebapp/create-menu.html"
-
-    permission_classes = [permissions.IsAdminUser]
-    ''' Sets a particular menu or initializes it for creation '''
+    
     def get(self, request, **kwargs):
+        ''' Sets a particular menu or initializes it for creation '''
         menu_id = kwargs.get('id', None)
 
         if menu_id == None:
@@ -74,8 +68,8 @@ class MenuFormView(View):
         
         return render(request, self.template_name, {'form': form})
 
-    ''' Saves the menu '''
     def post(self, request, *args, **kwargs):
+        ''' Saves the menu '''
         menu = MenuModel()
         menu_id = kwargs.get('id', None)
         
@@ -98,6 +92,23 @@ class MenuFormView(View):
 class EmployeeView(View):
     form_class = EmployeeForm
     template_name = "norawebapp/employee.html"
+
+    def get(self, request):
+        form = self.form_class(request.GET or None)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST or None)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+        else:
+            return render(request, self.template_name)
+
+class EmployeeMenuView(View):
+    form_class = EmployeeMenuForm
+    template_name = "norawebapp/employee-menu.html"
 
     def get(self, request):
         form = self.form_class(request.GET or None)

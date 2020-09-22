@@ -11,17 +11,17 @@
 <body>
     <div class="navbar">
         <a href="{% url 'index' %}" class="navbar-brand">Noras Menu</a> | 
-        <a href="{% url 'index' %}" class="navbar-item">Menu del Día</a> | 
-        <a href="{% url 'createmenu' %}" class="navbar-item">Crear Menu</a> |
-        <a href="{% url 'createemployee' %}" class="navbar-item">Crear Empleado</a> |
-
         {% if user.is_authenticated %}
-            <span style="padding-left: 50px;">Hola {{ user.username }}!</span> |
-            <a href="{% url 'logout' %}" class="navbar-item">Log Out</a>
+            {% if request.user.is_staff %}
+                <a href="{% url 'index' %}" class="navbar-item">Menu del Día</a> | 
+                <a href="{% url 'createmenu' %}" class="navbar-item">Crear Menu</a> |
+                <a href="{% url 'createemployee' %}" class="navbar-item">Crear Empleado</a> |
+            {% endif %}
+                <span style="padding-left: 50px;">Hola {{ user.username }}!</span> |
+                <a href="{% url 'logout' %}" class="navbar-item">Log Out</a>
         {% else %}
             <a href="{% url 'login' %}" style="padding-left: 50px;" class="navbar-item">Log In</a>
         {% endif %}
-
     </div>
 
     <div class="body-content">
