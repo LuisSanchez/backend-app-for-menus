@@ -15,7 +15,7 @@
             {% if request.user.is_staff %}
                 <a href="{% url 'index' %}" class="navbar-item">Menu del Día</a> | 
                 <a href="{% url 'createmenu' %}" class="navbar-item">Crear Menu</a> |
-                <a href="{% url 'createemployee' %}" class="navbar-item">Crear Empleado</a> |
+                <a href="{% url 'createemployee' %}" class="navbar-item">Actualizar telf. Empleado</a> |
                 <a href="{% url 'menu_employee_list' %}" class="navbar-item">Menú de los Empleados</a> |
                 <a href="{% url 'adminnora' %}" class="navbar-item">Nora Admin</a> |
             {% else %}
@@ -34,7 +34,7 @@
         <hr />
         {% now "Y" as current_year %}
         <footer>
-            <p>© {{current_year}}</p>
+            <p>© Luis Sánchez {{current_year}}</p>
         </footer>
     </div>
 </body>

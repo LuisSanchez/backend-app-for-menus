@@ -1,11 +1,13 @@
 {% extends "norawebapp/layout.html" %}
 {% block title %}
-Formulario de empleado
+Actualizar teléfono empleado
 {% endblock %}
 {% block content %}
+<h2>Actualizar número de empleado</h2>
+<p>Seleccionar el usuario de la aplicación y actualizar su teléfono para que le llegue el mensaje de whatsapp</p>
     <form method="POST" class="employee-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Crear empeado</button>
+        <button type="submit" class="save btn btn-default">Actualizar teléfono</button>
     </form>
 {% endblock %}
