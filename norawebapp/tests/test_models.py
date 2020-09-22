@@ -1,10 +1,9 @@
 from django.test import TestCase
-from django.urls import exceptions
-from norawebapp.models import EmployeeMenu, Menu
+from norawebapp.models import Menu
 from datetime import date
 
 
-class TestMenuModel(TestCase):
+class TestModels(TestCase):
     menu_expected_date = date(2020, 1, 1)
     menu_expected = {}
 
