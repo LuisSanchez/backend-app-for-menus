@@ -2,8 +2,8 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from norawebapp.forms import EmployeeForm, MenuForm, EmployeeMenuForm
 from norawebapp.models import EmployeeMenu, Employee, Menu as MenuModel
+from norawebapp.helpers.whatsapp_manager import send_whatsapp_message_with_menu 
 from rest_framework.views import View
-from whatsapp.views import WhatsappView
 from datetime import date
 
 
@@ -16,24 +16,12 @@ def menu_list(request):
     menus = EmployeeMenu.objects.all()
     return render(request, 'norawebapp/menu-list.html', { 'menus': menus })
 
-def send_whatsapp_message_with_menu(menu: MenuModel, from_, to_):
-    if (len(menu) != 0):
-        request = {
-            'message': str(menu), 
-            'from': settings.TWILIO_TO_WHATSAPP, 
-            'to': settings.TWILIO_FROM_WHATSAPP
-        }
-
-    menu_view = MenuManagerView()
-    response = menu_view.post(request)
-    return response
-
 
 class MenuView(View):
     template_name = "norawebapp/menu.html"
 
-    ''' Retrieve menu of the day by its uuid '''
     def get(self, request, **kwargs):
+        ''' Retrieve menu of the day by its uuid '''
         id = kwargs.get('id', None)
         if id == None:
             context = { "message": "Menú inválido..." }
@@ -85,6 +73,10 @@ class MenuFormView(View):
                 return render(request, self.template_name, {"form": form, "message": message})
             else:
                 form.save()
+                # if the menu was saved today, a whatsapp message is sent
+                if (settings.TWILIO_SEND_MESSAGE_ON_SAVE_MENU and form.cleaned_data['date'] == date.today()):
+                    send_whatsapp_message_with_menu(form.instance)
+                
                 return redirect("index")
         else:
             return render(request, self.template_name)

@@ -1,11 +1,10 @@
 import requests
 from django.conf import settings
-from slackapp.helpers.slack_helper import send_slack_message
-from django.urls import resolve, reverse
+from django.urls import reverse
 from norawebapp.models import Menu
 from datetime import date
 
-def send_message():
+def send_slack_reminder():
     menu = Menu()
     menu = menu.get_menu_by_date(date.today())
 

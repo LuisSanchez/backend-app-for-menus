@@ -9,5 +9,6 @@ class SlackView(APIView):
     def post(self, request, *args, **kwargs):
         message = request.data.get("message")
         channel = request.data.get("channel")
+        
         response = send_slack_message(message, channel) 
         return Response(response, status=status.HTTP_200_OK)
