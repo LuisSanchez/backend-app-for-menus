@@ -1,11 +1,11 @@
-from whatsapp.helpers.twilio import send_whatsapp_message
-from rest_framework.views import APIView
-from .helpers import twilio
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework import status
+from .helpers.twilio import send_whatsapp_message
 
 
 class WhatsappView(APIView):
+    
     def post(self, request, *args, **kwargs):
         message = request.data['message']
         from_ = request.data['from_']

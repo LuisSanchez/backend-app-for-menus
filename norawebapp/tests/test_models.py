@@ -3,7 +3,7 @@ from norawebapp.models import Menu
 from datetime import date
 
 
-class TestModels(TestCase):
+class TestNorawebappModels(TestCase):
     menu_expected_date = date(2020, 1, 1)
     menu_expected = {}
 

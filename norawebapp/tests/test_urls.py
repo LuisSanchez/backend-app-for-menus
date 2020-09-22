@@ -3,7 +3,7 @@ from django.urls import reverse, resolve, exceptions
 from norawebapp.views import menu_employees_list, admin_nora, admin_nora_create_dummy_users, admin_nora_send_slack_message, admin_nora_send_whatapp_message, MenuFormView, index, EmployeeView, menu_list, MenuView, EmployeeMenuView
 
 
-class TestUrls(SimpleTestCase):
+class TestNorawebappUrls(SimpleTestCase):
     def test_index_resolves(self):
         url = reverse('index')
         self.assertEquals(resolve(url).func, index)

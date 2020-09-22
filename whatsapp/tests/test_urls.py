@@ -3,7 +3,7 @@ from django.urls import reverse, resolve
 from whatsapp.views import WhatsappView
 
 
-class TestUrls(SimpleTestCase):
+class TestSlackappUrls(SimpleTestCase):
 
     def test_whatsapp_view_resolves(self):
         url = reverse('whatsapp')
