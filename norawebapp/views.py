@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.checks import messages
 from django.shortcuts import redirect, render
 from norawebapp.forms import EmployeeForm, MenuForm, EmployeeMenuForm
 from norawebapp.models import EmployeeMenu, Employee as EmployeeModel, Menu as MenuModel
@@ -131,8 +132,15 @@ class EmployeeMenuView(View):
         # if menu is empty?
         menu = MenuModel.objects.filter(date=date.today())
         employee = EmployeeModel.objects.get(user_id=request.user.id)
-        form = self.form_class(request.GET or None, initial={'employee': employee, 'menu': menu.first()})
-        return render(request, self.template_name, {'form': form})
+        employeeMenu = EmployeeMenu.objects.filter(date=date.today(), employee_id=employee.id)
+
+        if (len(menu) == 0):
+            return render(request, self.template_name, {'message': 'No se ha creado menú del día'})
+        elif (len(employeeMenu)) :
+            return render(request, self.template_name, {'message': 'Ya tiene un menú seleccionado para hoy'})
+        else:
+            form = self.form_class(request.GET or None, initial={'employee': employee, 'menu': menu.first()})
+            return render(request, self.template_name, {'form': form, 'menu': menu.first()})
 
     def post(self, request, *args, **kwargs):
         menu = MenuModel.objects.filter(date=date.today())

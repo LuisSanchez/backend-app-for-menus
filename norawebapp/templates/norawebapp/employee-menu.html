@@ -5,14 +5,19 @@ Menú del día
 
 {% block content %}
 <h1>Seleccionar menú</h1>
-<form method="POST" action=".">{% csrf_token %}
-    {{ form.as_p }}
-
-    
-    <input type="submit" value="Guardar"></input>
-</form>
 
 {% if message %}
-<h3>{{ message }}</h3>
+    <p>{{message}}</p>
+{% else %}
+    <p><strong>Opción 1:</strong> {{ menu.option_one }}</p>
+    <p><strong>Opción 2:</strong> {{ menu.option_two }}</p>
+    <p><strong>Opción 3:</strong> {{ menu.option_three }}</p>
+    <p><strong>Opción 4:</strong> {{ menu.option_four }}</p>
+
+    <form method="POST" action=".">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Guardar"></input>
+    </form>
 {% endif  %}
+
 {% endblock %}
