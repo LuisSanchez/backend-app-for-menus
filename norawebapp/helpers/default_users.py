@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 import random
 
@@ -11,8 +12,8 @@ def persist_random_users():
         user.save()
 
     message = (f'Default users added.\n'
-               f'Phone numbers and authorization for whatsapp sandbox needs to be configured. \n'
-               f'Send the WhatsApp message "join worry-hello" from your phone to +1 415 523 8886')
+               f'Phone numbers and authorization for whatsapp sandbox(twilio) needs to be configured. \n'
+               f'Send the WhatsApp message "join worry-hello" from your phone to {settings.TWILIO_FROM_WHATSAPP}')
     print(message)
 
     return message
