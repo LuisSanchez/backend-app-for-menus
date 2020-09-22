@@ -17,6 +17,8 @@
                 <a href="{% url 'createmenu' %}" class="navbar-item">Crear Menu</a> |
                 <a href="{% url 'createemployee' %}" class="navbar-item">Crear Empleado</a> |
                 <a href="{% url 'adminnora' %}" class="navbar-item">Nora Admin</a> |
+            {% else %}
+                <a href="{% url 'employeemenu' %}" class="navbar-item">Seleccionar Menú</a> |
             {% endif %}
                 <span style="padding-left: 50px;">Hola {{ user.username }}!</span> |
                 <a href="{% url 'logout' %}" class="navbar-item">Log Out</a>
