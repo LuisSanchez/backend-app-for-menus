@@ -2,7 +2,9 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from norawebapp.forms import EmployeeForm, MenuForm, EmployeeMenuForm
 from norawebapp.models import EmployeeMenu, Employee, Menu as MenuModel
-from norawebapp.helpers.whatsapp_manager import send_whatsapp_message_with_menu 
+from norawebapp.helpers.whatsapp_manager import send_whatsapp_message_with_menu
+from norawebapp.helpers.default_users import persist_random_users
+from norawebapp.helpers.slack_manager import broadcast_message_on_slack_channel
 from rest_framework.views import View
 from datetime import date
 
@@ -15,6 +17,28 @@ def index(request):
 def menu_list(request):
     menus = EmployeeMenu.objects.all()
     return render(request, 'norawebapp/menu-list.html', { 'menus': menus })
+
+def admin_nora(request):
+    return render(request, 'norawebapp/admin-nora.html')
+
+def admin_nora_create_dummy_users(request):
+    message = persist_random_users()
+    print(message)
+    return render(request, 'norawebapp/admin-nora.html', { 'message': message })
+
+def admin_nora_send_whatapp_message(request):
+    menu = MenuModel()
+    menu = menu.get_menu_by_date(date.today())
+    response = send_whatsapp_message_with_menu(menu.first())
+    print(response)
+    return render(request, 'norawebapp/admin-nora.html', { 'message': response })
+
+def admin_nora_send_slack_message(request):
+    menu = MenuModel()
+    menu = menu.get_menu_by_date(date.today())
+    response = broadcast_message_on_slack_channel(menu.first())
+    print(response)
+    return render(request, 'norawebapp/admin-nora.html', { 'message': response })
 
 
 class MenuView(View):

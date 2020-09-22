@@ -1,0 +1,15 @@
+{% extends "norawebapp/layout.html" %}
+{% block title %}
+Nora's admin
+{% endblock %}
+{% block content %}
+<h2>Admin of nora</h2>
+
+<a href="{% url 'adminnora_menu' %}" class="navbar-item">Enviar mensaje de whatsapp con menu del día</a> 
+<a href="{% url 'adminnora_broadcast' %}" class="navbar-item">Enviar manualmente mensaje al canal de slack</a>
+<a href="{% url 'adminnora_dummy' %}" class="navbar-item">Crear empleados dummy(5)</a>
+
+{% if message%}
+    <h3>{{message}}</h3>
+{% endif %}
+{% endblock %}

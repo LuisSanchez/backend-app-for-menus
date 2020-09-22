@@ -7,12 +7,12 @@ def persist_random_users():
     for user_name in users_list:
         suffix = random.randint(10, 9999)
         username = user_name + str(suffix)
-        user = User.objects.create_user(user_name, f'{username}@nora.luis.cornershopapp.com', f'{username}2020')
+        user = User.objects.create_user(username, f'{username}@nora.luis.cornershopapp.com', f'{username}2020')
         user.save()
 
-    message = (f'default users added, phone numbers and authorization\n'
-               f'in whatsapp sandbox needs to be added, \n'
-               f'just send a WhatsApp message to +1 415 523 8886 with code "join worry-hello"')
+    message = (f'Default users added.\n'
+               f'Phone numbers and authorization for whatsapp sandbox needs to be configured. \n'
+               f'Send the WhatsApp message "join worry-hello" from your phone to +1 415 523 8886')
     print(message)
 
     return message

@@ -8,4 +8,5 @@ def send_whatsapp_message_with_menu(menu: Menu):
     payload = dict(message=str(menu), from_=settings.TWILIO_FROM_WHATSAPP, to_=settings.TWILIO_TO_WHATSAPP)
     response = requests.post(settings.BASE_URL_SERVER + url, data=payload)
     print(response)
+    
     return response
