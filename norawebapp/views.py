@@ -129,7 +129,6 @@ class EmployeeMenuView(View):
     template_name = "norawebapp/employee-menu.html"
 
     def get(self, request):
-        # if menu is empty?
         menu = MenuModel.objects.filter(date=date.today())
         employee = EmployeeModel.objects.get(user_id=request.user.id)
         employeeMenu = EmployeeMenu.objects.filter(date=date.today(), employee_id=employee.id)
