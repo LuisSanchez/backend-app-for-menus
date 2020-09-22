@@ -11,6 +11,7 @@ urlpatterns = [
     path('menu/create/', staff_member_required(views.MenuFormView.as_view(), login_url='employeemenu'), name='createmenu'),
     path('menu/edit/<uuid:id>/', staff_member_required(views.MenuFormView.as_view(), login_url='employeemenu'), name='editmenu'),
     path('menu/<uuid:id>/', views.MenuView.as_view(), name='menu'),
+    path('menu/employee/list/', staff_member_required(views.menu_employees_list, login_url='employeemenu'), name='menu_employee_list'),
     path('employee/create/', staff_member_required(views.EmployeeView.as_view(), login_url='employeemenu'), name='createemployee'),
     path('employee/menu/', login_required(views.EmployeeMenuView.as_view(), login_url='employeemenu'), name='employeemenu'),
     path('admin/nora/', staff_member_required(views.admin_nora, login_url='index'), name='adminnora'),

@@ -42,6 +42,17 @@ def admin_nora_send_slack_message(request):
     print(response)
     return render(request, 'norawebapp/admin-nora.html', { 'message': response })
 
+def menu_employees_list(request):
+    menu = MenuModel()
+    menu = menu.get_menu_by_date(date.today()).first()
+    employeeMenu = EmployeeMenu.objects.filter(menu_id=menu.id)
+    menu_options = {
+        "1": menu.option_one, 
+        "2": menu.option_two, 
+        "3": menu.option_three, 
+        "4": menu.option_four }
+    return render(request, 'norawebapp/menu-employees-list.html', { 'menus': employeeMenu, 'menu_options': menu_options })
+
 
 class MenuView(View):
     template_name = "norawebapp/menu.html"

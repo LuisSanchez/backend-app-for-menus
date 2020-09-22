@@ -1,6 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve, exceptions
-from norawebapp.views import admin_nora, admin_nora_create_dummy_users, admin_nora_send_slack_message, admin_nora_send_whatapp_message, MenuFormView, index, EmployeeView, menu_list, MenuView, EmployeeMenuView
+from norawebapp.views import menu_employees_list, admin_nora, admin_nora_create_dummy_users, admin_nora_send_slack_message, admin_nora_send_whatapp_message, MenuFormView, index, EmployeeView, menu_list, MenuView, EmployeeMenuView
 
 
 class TestUrls(SimpleTestCase):
@@ -35,6 +35,10 @@ class TestUrls(SimpleTestCase):
     def test_menu_resolves(self):
         url = reverse('menu', kwargs={'id': 'aac0a02c-4af7-41a6-984e-e590db2ccc80'})
         self.assertEquals(resolve(url).func.view_class, MenuView)
+
+    def test_menu_employee_list_should_not_resolve_due_decorator_staff(self):
+        url = reverse('menu_employee_list')
+        self.assertNotEqual(resolve(url).func, menu_employees_list)
 
     def test_create_employee_resolves(self):
         url = reverse('createemployee')

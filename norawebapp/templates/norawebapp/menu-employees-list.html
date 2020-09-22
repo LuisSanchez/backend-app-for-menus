@@ -1,0 +1,21 @@
+{% extends "norawebapp/layout.html" %}
+{% block title %}
+    Menú por empleado
+{% endblock %}
+{% block content %}
+{% load filters %}
+
+<h2>Menú por empleado</h2>
+{% if menus %}
+    {% for menu in menus %}
+        <p>Empleado: {{menu.employee.user.username}}</p>    
+        <p>Opción: {{menu.option_selected}} ({{ menu_options|get_item:menu.option_selected }}) </p>
+        <p>Comentario: {{menu.comment}}</p>
+
+    {% endfor %}
+
+{% else %}
+    <p>Empleados no han seleccionado la opción del menú del día</p>
+{% endif %}
+
+{% endblock %}
