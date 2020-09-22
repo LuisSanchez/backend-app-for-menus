@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.contrib.auth.models import User
+from .choices import MENU_OPTIONS
 
 
 class Menu(models.Model):
@@ -31,16 +32,10 @@ class Employee(models.Model):
 
 
 class EmployeeMenu(models.Model):
-    MENU_OPTIONS =( 
-        ("1", "Opción 1"), 
-        ("2", "Opción 2"), 
-        ("3", "Opción 3"), 
-        ("4", "Opción 4"),
-    ) 
     employee = models.ForeignKey('Employee', on_delete=models.DO_NOTHING)
     menu = models.ForeignKey('Menu', on_delete=models.DO_NOTHING)
-    comment = models.CharField(max_length=100, blank=True, verbose_name='Comentarios')
     option_selected = models.CharField(max_length=100, choices=MENU_OPTIONS, default='1', verbose_name='Opción de menú')
+    comment = models.CharField(max_length=100, blank=True, verbose_name='Comentarios')
     date = models.DateField(auto_now=True)
 
     def get_menus_of_employee_by_menu_id(self, menu_id):
