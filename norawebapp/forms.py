@@ -18,3 +18,7 @@ class EmployeeMenuForm(forms.ModelForm):
     class Meta:
         model = EmployeeMenu
         fields = '__all__'
+        widgets = {
+            'employee': forms.HiddenInput(),
+            'menu': forms.HiddenInput(),
+        }

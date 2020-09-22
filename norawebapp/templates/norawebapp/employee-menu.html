@@ -4,10 +4,11 @@ Menú del día
 {% endblock %}
 
 {% block content %}
-
-<h1>Crear menú</h1>
+<h1>Seleccionar menú</h1>
 <form method="POST" action=".">{% csrf_token %}
     {{ form.as_p }}
+
+    
     <input type="submit" value="Guardar"></input>
 </form>
 

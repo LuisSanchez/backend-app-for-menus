@@ -1,12 +1,13 @@
 from django.conf import settings
 from django.shortcuts import redirect, render
 from norawebapp.forms import EmployeeForm, MenuForm, EmployeeMenuForm
-from norawebapp.models import EmployeeMenu, Employee, Menu as MenuModel
+from norawebapp.models import EmployeeMenu, Employee as EmployeeModel, Menu as MenuModel
 from norawebapp.helpers.whatsapp_manager import send_whatsapp_message_with_menu
 from norawebapp.helpers.default_users import persist_random_users
 from norawebapp.helpers.slack_manager import broadcast_message_on_slack_channel
 from rest_framework.views import View
 from datetime import date
+from django.contrib.auth.models import User
 
 
 def index(request):
@@ -127,11 +128,17 @@ class EmployeeMenuView(View):
     template_name = "norawebapp/employee-menu.html"
 
     def get(self, request):
-        form = self.form_class(request.GET or None)
+        # if menu is empty?
+        menu = MenuModel.objects.filter(date=date.today())
+        employee = EmployeeModel.objects.get(user_id=request.user.id)
+        form = self.form_class(request.GET or None, initial={'employee': employee, 'menu': menu.first()})
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST or None)
+        menu = MenuModel.objects.filter(date=date.today())
+        employee = EmployeeModel.objects.get(user_id=request.user.id)
+
+        form = self.form_class(request.POST or None, initial={'employee': employee, 'menu': menu.first()})
         
         if form.is_valid():
             form.save()
