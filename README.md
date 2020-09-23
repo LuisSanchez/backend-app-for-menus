@@ -33,9 +33,12 @@ NOTE: The slack reminders must contain an URL to today's menu with the following
 ## What's new on this version?
 
 - Nora can send whatsapp messages manually on the admin page.
-  ![](readme-static/whatsapp-twilio.jpg)
+  ![](readme-static/whatsapp-twilio.png)
 - Slack messages to the channel can also be send manually (they are also scheduled to be sent every week day at 9:30am).
+
   ![](readme-static/slackapp.png)
+
+  ![](readme-static/menu-of-the-day.png)
 
 ### Validations
 
@@ -94,7 +97,6 @@ python manage.py createsuperuser --username=nora --email=nora@palta.domain.com
 python manage.py runserver
 ```
 
-
 ## Aditional features
 
-- If Nora updates the menu, an automatic new message  is sent via whatsapp to the employees.
+- If Nora updates the menu, an automatic new message is sent via whatsapp to the employees.
