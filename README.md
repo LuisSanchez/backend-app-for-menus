@@ -99,6 +99,17 @@ python manage.py createsuperuser --username=nora --email=nora@palta.domain.com
 python manage.py runserver
 ```
 
+## Running local tests
+
+There are 3 folders with tests to be run, you can run them individually with the following commands:
+
+```
+python .\manage.py test .\slackapp\
+python .\manage.py test .\norawebapp\
+python .\manage.py test .\whatsapp\
+
+```
+
 ## Aditional features
 
 - If Nora updates the menu, an automatic new message is sent via whatsapp to the employees.
