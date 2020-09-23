@@ -7,7 +7,7 @@ from norawebapp.helpers.whatsapp_manager import send_whatsapp_message_with_menu
 from norawebapp.helpers.default_users import persist_random_users
 from norawebapp.helpers.slack_manager import broadcast_message_on_slack_channel
 from rest_framework.views import View
-from datetime import date
+from datetime import date, datetime
 
 
 def index(request):
@@ -150,6 +150,8 @@ class EmployeeMenuView(View):
         employee = EmployeeModel.objects.get(user_id=request.user.id)
         employeeMenu = EmployeeMenu.objects.filter(date=date.today(), employee_id=employee.id)
 
+        if (datetime.today().hour < 11):
+            return render(request, self.template_name, {'message': 'No se puede seleccionar menú luego de las 11:00 hrs'})
         if (len(menu) == 0):
             return render(request, self.template_name, {'message': 'No se ha creado menú del día'})
         elif (len(employeeMenu)) :
