@@ -63,7 +63,7 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
-4. Add en .env file to the `awesomemenu` folder with the following settings:
+4. Add the following variables to your environment:
 ```
 SECRET_KEY_MENU="Your App Key"
 
