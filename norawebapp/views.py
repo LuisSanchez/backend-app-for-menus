@@ -8,50 +8,56 @@ from norawebapp.helpers.default_users import persist_random_users
 from norawebapp.helpers.slack_manager import broadcast_message_on_slack_channel
 from rest_framework.views import View
 from datetime import date
-from django.contrib.auth.models import User
 
 
 def index(request):
-    menu = MenuModel()
-    menu = menu.get_menu_by_date(date.today())
-    return render(request, "norawebapp/index.html", { 'menu': menu.first() })
+    if request.method == "GET":
+        menu = MenuModel()
+        menu = menu.get_menu_by_date(date.today())
+        return render(request, "norawebapp/index.html", { 'menu': menu.first() })
 
 def menu_list(request):
-    menus = EmployeeMenu.objects.all()
-    return render(request, 'norawebapp/menu-list.html', { 'menus': menus })
+    if request.method == "GET":
+        menus = EmployeeMenu.objects.all()
+        return render(request, 'norawebapp/menu-list.html', { 'menus': menus })
 
 def admin_nora(request):
-    return render(request, 'norawebapp/admin-nora.html')
+    if request.method == "GET":
+        return render(request, 'norawebapp/admin-nora.html')
 
 def admin_nora_create_dummy_users(request):
-    message = persist_random_users()
-    print(message)
-    return render(request, 'norawebapp/admin-nora.html', { 'message': message })
+    if request.method == "GET":
+        message = persist_random_users()
+        print(message)
+        return render(request, 'norawebapp/admin-nora.html', { 'message': message })
 
 def admin_nora_send_whatapp_message(request):
-    menu = MenuModel()
-    menu = menu.get_menu_by_date(date.today())
-    response = send_whatsapp_message_with_menu(menu.first())
-    print(response)
-    return render(request, 'norawebapp/admin-nora.html', { 'message': response })
+    if request.method == "GET":
+        menu = MenuModel()
+        menu = menu.get_menu_by_date(date.today())
+        response = send_whatsapp_message_with_menu(menu.first())
+        print(response)
+        return render(request, 'norawebapp/admin-nora.html', { 'message': response })
 
 def admin_nora_send_slack_message(request):
-    menu = MenuModel()
-    menu = menu.get_menu_by_date(date.today())
-    response = broadcast_message_on_slack_channel(menu.first())
-    print(response)
-    return render(request, 'norawebapp/admin-nora.html', { 'message': response })
+    if request.method == "GET":
+        menu = MenuModel()
+        menu = menu.get_menu_by_date(date.today())
+        response = broadcast_message_on_slack_channel(menu.first())
+        print(response)
+        return render(request, 'norawebapp/admin-nora.html', { 'message': response })
 
 def menu_employees_list(request):
-    menu = MenuModel()
-    menu = menu.get_menu_by_date(date.today()).first()
-    employeeMenu = EmployeeMenu.objects.filter(menu_id=menu.id)
-    menu_options = {
-        "1": menu.option_one, 
-        "2": menu.option_two, 
-        "3": menu.option_three, 
-        "4": menu.option_four }
-    return render(request, 'norawebapp/menu-employees-list.html', { 'menus': employeeMenu, 'menu_options': menu_options })
+    if request.method == "GET":
+        menu = MenuModel()
+        menu = menu.get_menu_by_date(date.today()).first()
+        employeeMenu = EmployeeMenu.objects.filter(menu_id=menu.id)
+        menu_options = {
+            "1": menu.option_one, 
+            "2": menu.option_two, 
+            "3": menu.option_three, 
+            "4": menu.option_four }
+        return render(request, 'norawebapp/menu-employees-list.html', { 'menus': employeeMenu, 'menu_options': menu_options })
 
 
 class MenuView(View):
