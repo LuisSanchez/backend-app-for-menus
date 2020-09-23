@@ -8,3 +8,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8000:8000
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672

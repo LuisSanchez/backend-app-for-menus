@@ -102,3 +102,7 @@ python manage.py runserver
 ## Aditional features
 
 - If Nora updates the menu, an automatic new message is sent via whatsapp to the employees.
+- The image for the project is on my [docker-hub](https://hub.docker.com/r/luissanchezm86/nora-awesome-menu)
+- Docker-compose with RabbitMQ is added:
+
+![](readme-static/docker-compose-with-rabbitmq.png)
