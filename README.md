@@ -1,6 +1,7 @@
-## Description
+## New Nora's Menu
 
-The current process consist of a person (Nora) sending a text message via Whatsapp to all the chilean employees, the message contains today's menu with the different alternatives for lunch. 
+### About
+Nora's Menu is a simple application that consist of a person sending a text message via Whatsapp to all the chilean employees, the message contains today's menu with the different alternatives for lunch, for example:
 
 > Hola!  
 > Dejo el menú de hoy :)
@@ -12,16 +13,69 @@ The current process consist of a person (Nora) sending a text message via Whatsa
 >
 > Tengan lindo día!
 
-With the new system, Nora should be able to:
+Aditionally Nora can: 
 
 - Create a menu for a specific date.
-- Send a Slack reminder with today's menu to all chilean employees (this process needs to be asynchronous).
+- Send a Slack reminder with today's menu to all chilean employees (this process needs to be asynchronous, but can also be trigger on the site).
 
 The employees should be able to:
 
 - Choose their preferred meal (until 11 AM CLT).
 - Specify customizations (e.g. no tomatoes in the salad).
 
-Nora should be the only user to be able to see what the Cornershop employees have requested, and to create and edit today's menu. The employees should be able to specify what they want for lunch but they shouldn't be able to see what others have requested. 
+Nora is the only user to be able to see what the employees have requested and to create and edit today's menu. 
 
-NOTE: The slack reminders must contain an URL to today's menu with the following pattern https://nora.cornershop.io/menu/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx (an UUID), this page must not require authentication of any kind.
+The employees should be able to specify what they want for lunch but they shouldn't be able to see what others have requested. 
+
+NOTE: The slack reminders must contain an URL to today's menu with the following pattern https://nora.awesome.app.io/menu/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx, this page is for anonymous users.
+
+## What's new on this version?
+
+- Nora can send whatsapp messages manually on the admin page.
+![](readme-static/whatsapp.png)
+- Slack messages to the channel can also be send manually (they are also scheduled to be sent every week day at 9:30am).
+![](readme-static/slackapp.png)
+
+### Validations
+
+- Employees cannot send a menu after 11:00 am and cannot send two menus on the same day.
+- Nora only can edit a menu of the same day. Editions of future menues are not allowed.
+- Nora has a new admin for testing purposes: a new hability to add 5 dummy users, but be aware, these employees don't have phone number.
+- Nora has a new form where phone numbers can be added to employees (so the whatsapp message can be delivered).
+
+## How to install locally
+
+1. Open your terminal and type:
+
+```
+git clone https://github.com/LuisSanchez/Backend-Test-Sanchez.git
+```
+
+2. Install the requirements:
+
+```
+pip install -r requirements.txt
+```
+
+3. Run the migrations:
+
+```
+python manage.py migrate
+```
+
+4. Add en .env file to the `awesomemenu` folder with the following settings:
+```
+SECRET_KEY_MENU="Your App Key"
+
+TWILIO_ACCOUNT_SID="Your App Key"
+TWILIO_AUTH_TOKEN="Your App Key"
+TWILIO_FROM_WHATSAPP="whatsapp:+your sandbox from number"
+TWILIO_TO_WHATSAPP="whatsapp:+your number"
+
+SLACK_TOKEN="Your Token"
+SLACK_CHANNEL="Your Slack Channel"
+
+CELERY_BROKER_URL='pyamqp://'
+
+BASE_URL_SERVER='http://127.0.0.1:8000'
+```
