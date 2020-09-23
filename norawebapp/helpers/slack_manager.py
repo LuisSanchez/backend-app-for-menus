@@ -4,6 +4,9 @@ from django.urls import reverse
 from norawebapp.models import Menu
 
 def broadcast_message_on_slack_channel(menu: Menu):
+    ''' 
+        Sends the reminder to the channel configured on slack
+    '''
     url = reverse('slackapp')
     url_to_menu = reverse('menu', kwargs={'id': menu.id})
     link_to_menu = settings.BASE_URL_SERVER + url_to_menu

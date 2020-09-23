@@ -141,4 +141,7 @@ TWILIO_SEND_MESSAGE_ON_SAVE_MENU = True
 SLACK_TOKEN = os.environ.get('SLACK_TOKEN', os.getenv("SLACK_TOKEN"))
 SLACK_CHANNEL = os.environ.get('SLACK_CHANNEL', os.getenv("SLACK_CHANNEL"))
 
-BASE_URL_SERVER = 'http://127.0.0.1:8000'
+BASE_URL_SERVER = os.environ.get('BASE_URL_SERVER', os.getenv("BASE_URL_SERVER"))
+
+# Celery
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', os.getenv("CELERY_BROKER_URL"))
