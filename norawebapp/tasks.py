@@ -11,11 +11,9 @@ def send_slack_reminder():
         Task to send the slack message
     """
     menu = Menu.objects.filter(date=date.today())
-    print(menu)
 
     if (len(menu) > 0):
         response = broadcast_message_on_slack_channel(menu.first())
-        pass
     else:
         response = 'No existe aún menú del día'
         print(response)
