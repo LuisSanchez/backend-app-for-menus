@@ -10,14 +10,14 @@ class TestWhatsappViews(TestCase):
         self.user = User.objects.create_user(
             username='luis', email='luis@…', password='palta')
 
-    def test_whatsapp_GET_request_should_return_405(self):
+    def test_whatsappview_get_request_should_return_405(self):
         url = reverse('whatsapp')
         request = self.factory.get(url)
         request.user = self.user
         response = WhatsappView.as_view()(request)
         self.assertEqual(response.status_code, 405)
 
-    def test_whatsapp_POST_request_should_return_403(self):
+    def test_whatsappview_post_request_should_return_403(self):
         url = reverse('whatsapp')
         request = self.factory.post(url)
         request.user = self.user
