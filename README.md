@@ -32,8 +32,10 @@ NOTE: The slack reminders must contain an URL to today's menu with the following
 
 ## What's new on this version?
 
-- Nora can send whatsapp messages manually on the admin page.
+- Nora can send whatsapp messages manually on the admin page.`
+
   ![](readme-static/whatsapp-twilio.png)
+
 - Slack messages to the channel can also be send manually (they are also scheduled to be sent every week day at 9:30am).
 
   ![](readme-static/slackapp.png)
