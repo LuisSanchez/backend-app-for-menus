@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 import random
 
 def persist_random_users():
+    """
+        Creates dummy users on the database without phone number
+    """
     users_list = ['luis', 'manuel', 'pedro', 'juan', 'diego']
     
     for user_name in users_list:

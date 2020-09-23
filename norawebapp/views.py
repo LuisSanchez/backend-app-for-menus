@@ -22,16 +22,19 @@ def menu_list(request):
         return render(request, 'norawebapp/menu-list.html', { 'menus': menus })
 
 def admin_nora(request):
+    """ Super admin menu for Nora """
     if request.method == "GET":
         return render(request, 'norawebapp/admin-nora.html')
 
 def admin_nora_create_dummy_users(request):
+    """ Allows Nora to manually create dummy users (development only) """
     if request.method == "GET":
         message = persist_random_users()
         print(message)
         return render(request, 'norawebapp/admin-nora.html', { 'message': message })
 
 def admin_nora_send_whatapp_message(request):
+    """ Allows Nora to manually broadcast the menu using whatsapp """
     if request.method == "GET":
         menu = MenuModel()
         menu = menu.get_menu_by_date(date.today())
@@ -40,6 +43,7 @@ def admin_nora_send_whatapp_message(request):
         return render(request, 'norawebapp/admin-nora.html', { 'message': response })
 
 def admin_nora_send_slack_message(request):
+    """ Allows Nora to manually broadcast the menu on the slack channel """
     if request.method == "GET":
         menu = MenuModel()
         menu = menu.get_menu_by_date(date.today())
@@ -48,6 +52,7 @@ def admin_nora_send_slack_message(request):
         return render(request, 'norawebapp/admin-nora.html', { 'message': response })
 
 def menu_employees_list(request):
+    """ Shows nora the menu per employee of the day """
     if request.method == "GET":
         menu = MenuModel()
         menu = menu.get_menu_by_date(date.today()).first()
@@ -61,10 +66,10 @@ def menu_employees_list(request):
 
 
 class MenuView(View):
+    ''' Retrieve menu of the day by its uuid '''
     template_name = "norawebapp/menu.html"
 
     def get(self, request, **kwargs):
-        ''' Retrieve menu of the day by its uuid '''
         id = kwargs.get('id', None)
         if id == None:
             context = { "message": "Menú inválido..." }
@@ -84,6 +89,9 @@ class MenuView(View):
 
 
 class MenuFormView(View):
+    """
+        Handles the menu creation
+    """
     form_class = MenuForm
     template_name = "norawebapp/create-menu.html"
     
@@ -125,6 +133,9 @@ class MenuFormView(View):
             return render(request, self.template_name)
 
 class EmployeeView(View):
+    """
+        Handles the updating of the phone of the user
+    """
     form_class = EmployeeForm
     template_name = "norawebapp/employee.html"
 
@@ -142,6 +153,10 @@ class EmployeeView(View):
             return render(request, self.template_name)
 
 class EmployeeMenuView(View):
+    """
+        Handles and validates the selection and creation of the 
+        menu for the user
+    """
     form_class = EmployeeMenuForm
     template_name = "norawebapp/employee-menu.html"
 

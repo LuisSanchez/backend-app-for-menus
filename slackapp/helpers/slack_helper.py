@@ -7,6 +7,9 @@ from slack.errors import SlackApiError
 from django.conf import settings
 
 def send_slack_message(message, channel):
+    """
+        Generic function to broadcast slack messages to a given channel
+    """
     slack_token = settings.SLACK_TOKEN
     client = WebClient(token=slack_token)
 
