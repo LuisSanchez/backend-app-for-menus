@@ -1,1 +1,1 @@
-web: gunicorn norawebapp.wsgi --log-file -
+web: gunicorn awesomemenu.wsgi --log-file -
