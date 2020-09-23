@@ -1,6 +1,7 @@
 ## New Nora's Menu
 
 ### About
+
 Nora's Menu is a simple application that consist of a person sending a text message via Whatsapp to all the chilean employees, the message contains today's menu with the different alternatives for lunch, for example:
 
 > Hola!  
@@ -9,11 +10,11 @@ Nora's Menu is a simple application that consist of a person sending a text mess
 > Opción 1: Pastel de choclo, Ensalada y Postre  
 > Opción 2. Arroz con nugget de pollo, Ensalada y Postre  
 > Opción 3: Arroz con hamburguesa, Ensalada y Postre  
-> Opción 4: Ensalada premium de pollo y Postre  
+> Opción 4: Ensalada premium de pollo y Postre
 >
 > Tengan lindo día!
 
-Aditionally Nora can: 
+Aditionally Nora can:
 
 - Create a menu for a specific date.
 - Send a Slack reminder with today's menu to all chilean employees (this process needs to be asynchronous, but can also be trigger on the site).
@@ -23,18 +24,18 @@ The employees should be able to:
 - Choose their preferred meal (until 11 AM CLT).
 - Specify customizations (e.g. no tomatoes in the salad).
 
-Nora is the only user to be able to see what the employees have requested and to create and edit today's menu. 
+Nora is the only user to be able to see what the employees have requested and to create and edit today's menu.
 
-The employees should be able to specify what they want for lunch but they shouldn't be able to see what others have requested. 
+The employees should be able to specify what they want for lunch but they shouldn't be able to see what others have requested.
 
-NOTE: The slack reminders must contain an URL to today's menu with the following pattern https://nora.awesome.app.io/menu/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx, this page is for anonymous users.
+NOTE: The slack reminders must contain an URL to today's menu with the following pattern https://nora.awesome.menu.palta.io/menu/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx, this page is for anonymous users.
 
 ## What's new on this version?
 
 - Nora can send whatsapp messages manually on the admin page.
-![](readme-static/whatsapp.png)
+  ![](readme-static/whatsapp-twilio.jpg)
 - Slack messages to the channel can also be send manually (they are also scheduled to be sent every week day at 9:30am).
-![](readme-static/slackapp.png)
+  ![](readme-static/slackapp.png)
 
 ### Validations
 
@@ -64,6 +65,7 @@ python manage.py migrate
 ```
 
 4. Add the following variables to your environment:
+
 ```
 SECRET_KEY_MENU="Your App Key"
 
@@ -79,3 +81,20 @@ CELERY_BROKER_URL='pyamqp://'
 
 BASE_URL_SERVER='http://127.0.0.1:8000'
 ```
+
+5. Create your Nora Super Admin:
+
+```
+python manage.py createsuperuser --username=nora --email=nora@palta.domain.com
+```
+
+6. Run your application:
+
+```
+python manage.py runserver
+```
+
+
+## Aditional features
+
+- If Nora updates the menu, an automatic new message  is sent via whatsapp to the employees.
