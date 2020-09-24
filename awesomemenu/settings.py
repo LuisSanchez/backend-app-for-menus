@@ -29,6 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'nora-luissanchez.herokuapp.com',
+    '127.0.0.1:8000',
+    '127.0.0.1',
+    'localhost',
+    'localhost:32768'
 ]
 
 
