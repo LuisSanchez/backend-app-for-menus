@@ -8,7 +8,7 @@ class TestWhatsappViews(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(
-            username='luis', email='luis@…', password='palta')
+            username='supertestuser', email='luis@…', password='palta')
 
     def test_whatsappview_get_request_should_return_405(self):
         url = reverse('whatsapp')

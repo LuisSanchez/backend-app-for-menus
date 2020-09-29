@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.checks import messages
+from django.http import request
 from django.shortcuts import redirect, render
 from norawebapp.forms import EmployeeForm, MenuForm, EmployeeMenuForm
 from norawebapp.models import EmployeeMenu, Employee as EmployeeModel, Menu as MenuModel
@@ -56,13 +57,16 @@ def menu_employees_list(request):
     if request.method == "GET":
         menu = MenuModel()
         menu = menu.get_menu_by_date(date.today()).first()
-        employeeMenu = EmployeeMenu.objects.filter(menu_id=menu.id)
-        menu_options = {
-            "1": menu.option_one, 
-            "2": menu.option_two, 
-            "3": menu.option_three, 
-            "4": menu.option_four }
-        return render(request, 'norawebapp/menu-employees-list.html', { 'menus': employeeMenu, 'menu_options': menu_options })
+        if (menu is not None):
+            employeeMenu = EmployeeMenu.objects.filter(menu_id=menu.id)
+            menu_options = {
+                "1": menu.option_one, 
+                "2": menu.option_two, 
+                "3": menu.option_three, 
+                "4": menu.option_four }
+            return render(request, 'norawebapp/menu-employees-list.html', { 'menus': employeeMenu, 'menu_options': menu_options })
+        else:
+            return redirect('index')
 
 
 class MenuView(View):
